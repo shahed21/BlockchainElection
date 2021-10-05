@@ -10,6 +10,8 @@ contract Election {
 
     // hash map to hold the candidates
     mapping (uint => Candidate) public candidates;
+    // hashmap to store voter accounts
+    mapping (address => bool) public voters;
 
     // this integer keeps track of total candidates in the blockchain app
     uint public candidatesCount;
@@ -17,6 +19,11 @@ contract Election {
     function addCandidate(string memory _name) private {
         candidatesCount++;
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
+    }
+
+    function vote (uint _candidateId) public {
+        voters[msg.sender] = true;
+        candidates[_candidateId].voteCount++;
     }
 
     constructor() public {
