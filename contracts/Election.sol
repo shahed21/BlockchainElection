@@ -16,6 +16,12 @@ contract Election {
     // this integer keeps track of total candidates in the blockchain app
     uint public candidatesCount;
 
+    // voted event
+    event votedEvent (
+        uint indexed _candidateId
+    );
+
+
     function addCandidate(string memory _name) private {
         candidatesCount++;
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
@@ -26,6 +32,7 @@ contract Election {
         require(!voters[msg.sender]);
         voters[msg.sender] = true;
         candidates[_candidateId].voteCount ++;
+        emit votedEvent(_candidateId);
     }
 
     constructor() public {
